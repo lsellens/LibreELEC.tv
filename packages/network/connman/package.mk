@@ -8,9 +8,16 @@ PKG_SHA256="72710b2a0edd57b9ae61285bc2192bbff7317c721ff8a110360f299c35ba9175"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.connman.net"
 PKG_URL="https://git.kernel.org/pub/scm/network/connman/connman.git/snapshot/connman-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain glib readline dbus iptables wpa_supplicant"
+PKG_DEPENDS_TARGET="toolchain glib readline dbus iptables"
 PKG_LONGDESC="A modular network connection manager."
 PKG_TOOLCHAIN="autotools"
+
+if [ "$WIFI_SUPPORT" = "yes" ]; then
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET wpa_supplicant"
+  WIFI="--enable-wifi"
+else
+  WIFI="--disable-wifi"
+fi
 
 PKG_CONFIGURE_OPTS_TARGET="WPASUPPLICANT=/usr/bin/wpa_supplicant \
                            --srcdir=.. \
@@ -31,7 +38,7 @@ PKG_CONFIGURE_OPTS_TARGET="WPASUPPLICANT=/usr/bin/wpa_supplicant \
                            --enable-loopback \
                            --enable-ethernet \
                            --disable-gadget \
-                           --enable-wifi \
+                           $WIFI \
                            --disable-bluetooth \
                            --disable-ofono \
                            --disable-dundee \

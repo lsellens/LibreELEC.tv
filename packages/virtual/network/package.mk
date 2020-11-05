@@ -30,3 +30,7 @@ fi
 if [ "$TARGET_ARCH" = "x86_64" ] || [ "$TARGET_ARCH" = "arm" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET nss"
 fi
+
+if [ "$KERNEL_NFS_SUPPORT" = "yes" ]; then
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET nfs-utils"
+fi

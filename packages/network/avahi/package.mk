@@ -15,7 +15,7 @@ PKG_CONFIGURE_OPTS_TARGET="py_cv_mod_gtk_=yes \
                            py_cv_mod_dbus_=yes \
                            ac_cv_func_chroot=no \
                            --with-distro=none \
-                           --disable-glib \
+                           --enable-glib \
                            --disable-gobject \
                            --disable-qt3 \
                            --disable-qt4 \
@@ -56,6 +56,8 @@ pre_configure_target() {
 }
 
 post_makeinstall_target() {
+# for some reason avai can fail to start see: http://forums.gentoo.org/viewtopic-p-7322172.html#7322172
+  sed -e "s,^.*disallow-other-stacks=.*$,disallow-other-stacks=yes,g" -i $INSTALL/etc/avahi/avahi-daemon.conf
 # disable wide-area
   sed -e "s,^.*enable-wide-area=.*$,enable-wide-area=no,g" -i $INSTALL/etc/avahi/avahi-daemon.conf
 # publish-hinfo
@@ -76,7 +78,6 @@ post_makeinstall_target() {
   rm -f $INSTALL/usr/bin/avahi-bookmarks
   rm -f $INSTALL/usr/bin/avahi-publish*
   rm -f $INSTALL/usr/bin/avahi-resolve*
-  rm -f $INSTALL/usr/lib/libdns_sd*
 
   mkdir -p $INSTALL/usr/share/services
     cp -P $PKG_DIR/default.d/*.conf $INSTALL/usr/share/services
