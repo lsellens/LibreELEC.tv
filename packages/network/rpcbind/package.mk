@@ -12,11 +12,16 @@ PKG_DEPENDS_TARGET="toolchain libtirpc systemd"
 PKG_LONGDESC="The rpcbind utility is a server that converts RPC program numbers into universal addresses."
 
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_rpcsvc_mount_h=no \
-                           --disable-warmstarts \
                            --disable-libwrap \
+                           --enable-rmtcalls \
                            --with-statedir=/tmp \
                            --with-rpcuser=root"
 
+post_makeinstall_target() {
+   sed -i -e '/^Wants=rpcbind.target/a After=systemd-tmpfiles-setup.service' ${INSTALL}/usr/lib/systemd/system/rpcbind.service
+}
+
 post_install() {
+  enable_service rpcbind.socket
   enable_service rpcbind.service
 }

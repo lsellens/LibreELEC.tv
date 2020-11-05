@@ -42,7 +42,8 @@ PKG_CONFIGURE_OPTS_TARGET="--srcdir=.. \
                            --enable-datafiles \
                            --with-dbusconfdir=/etc \
                            --with-systemdunitdir=/usr/lib/systemd/system \
-                           --disable-silent-rules"
+                           --disable-silent-rules \
+                           --disable-iwd"
 
 if [ "${WIREGUARD_SUPPORT}" = "yes" ]; then
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-wireguard=builtin"
@@ -50,19 +51,13 @@ else
   PKG_CONFIGURE_OPTS_TARGET+=" --disable-wireguard"
 fi
 
-case "${WIRELESS_DAEMON}" in
-  wpa_supplicant)
+if [ "$WIFI_SUPPORT" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" wpa_supplicant"
     PKG_CONFIGURE_OPTS_TARGET+=" WPASUPPLICANT=/usr/bin/wpa_supplicant \
-                                 --enable-wifi \
-                                 --disable-iwd"
-    ;;
-  iwd)
-    PKG_DEPENDS_TARGET+=" iwd"
-    PKG_CONFIGURE_OPTS_TARGET+=" --disable-wifi \
-                                 --enable-iwd"
-    ;;
-esac
+                                 --enable-wifi"
+else
+    PKG_CONFIGURE_OPTS_TARGET+=" --disable-wifi"
+fi
 
 PKG_MAKE_OPTS_TARGET="storagedir=/storage/.cache/connman \
                       vpn_storagedir=/storage/.config/wireguard \
