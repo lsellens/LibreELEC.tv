@@ -5,7 +5,7 @@
 PKG_NAME="kodi"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
-PKG_DEPENDS_TARGET="toolchain JsonSchemaBuilder:host TexturePacker:host Python2 zlib systemd lzo pcre swig:host libass curl fontconfig fribidi tinyxml libjpeg-turbo freetype libcdio taglib libxml2 libxslt rapidjson sqlite ffmpeg crossguid giflib libdvdnav libhdhomerun libfmt lirc libfstrcmp flatbuffers:host flatbuffers"
+PKG_DEPENDS_TARGET="toolchain JsonSchemaBuilder:host TexturePacker:host Python2 zlib systemd lzo pcre swig:host libass curl fontconfig fribidi tinyxml libjpeg-turbo freetype libcdio taglib libxml2 libxslt rapidjson sqlite ffmpeg crossguid giflib libfmt lirc libfstrcmp flatbuffers:host flatbuffers"
 PKG_LONGDESC="A free and open source cross-platform media player."
 
 PKG_PATCH_DIRS="$KODI_VENDOR"
@@ -104,21 +104,24 @@ configure_package() {
 
   if [ "$KODI_OPTICAL_SUPPORT" = yes ]; then
     KODI_OPTICAL="-DENABLE_OPTICAL=ON"
+    PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdvdnav"
+    KODI_LIBDVD="-DLIBDVDNAV_URL=$SOURCES/libdvdnav/libdvdnav-$(get_pkg_version libdvdnav).tar.gz \
+                 -DLIBDVDREAD_URL=$SOURCES/libdvdread/libdvdread-$(get_pkg_version libdvdread).tar.gz"
+    if [ "$KODI_DVDCSS_SUPPORT" = yes ]; then
+      KODI_DVDCSS="-DENABLE_DVDCSS=ON \
+                   -DLIBDVDCSS_URL=$SOURCES/libdvdcss/libdvdcss-$(get_pkg_version libdvdcss).tar.gz"
+    else
+      KODI_DVDCSS="-DENABLE_DVDCSS=OFF"
+    fi
+    if [ "$KODI_BLURAY_SUPPORT" = yes ]; then
+      PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libbluray"
+      KODI_BLURAY="-DENABLE_BLURAY=ON"
+    else
+      KODI_BLURAY="-DENABLE_BLURAY=OFF"
+    fi
   else
     KODI_OPTICAL="-DENABLE_OPTICAL=OFF"
-  fi
-
-  if [ "$KODI_DVDCSS_SUPPORT" = yes ]; then
-    KODI_DVDCSS="-DENABLE_DVDCSS=ON \
-                 -DLIBDVDCSS_URL=$SOURCES/libdvdcss/libdvdcss-$(get_pkg_version libdvdcss).tar.gz"
-  else
     KODI_DVDCSS="-DENABLE_DVDCSS=OFF"
-  fi
-
-  if [ "$KODI_BLURAY_SUPPORT" = yes ]; then
-    PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libbluray"
-    KODI_BLURAY="-DENABLE_BLURAY=ON"
-  else
     KODI_BLURAY="-DENABLE_BLURAY=OFF"
   fi
 
@@ -250,6 +253,7 @@ configure_package() {
                          $KODI_XORG \
                          $KODI_SAMBA \
                          $KODI_NFS \
+                         $KODI_DVDCSS \
                          $KODI_LIBDVD \
                          $KODI_AVAHI \
                          $KODI_UPNP \
