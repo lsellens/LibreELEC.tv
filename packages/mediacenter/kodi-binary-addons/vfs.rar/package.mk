@@ -2,8 +2,8 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="vfs.rar"
-PKG_VERSION="2.3.0-Leia"
-PKG_SHA256="07ab4a4e5f2ad9e6c7e15badb3474d3f4d9d5e1405c4ff82815cc44452177e3b"
+PKG_VERSION="2.3.2-Leia"
+PKG_SHA256="5275c09eed7e8354849caa17c3d9699abcfa2437a7c7af3833bffd10fc1c577f"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

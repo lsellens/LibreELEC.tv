@@ -3,14 +3,16 @@
 
 PKG_NAME="chrome"
 PKG_VERSION="1.0"
-PKG_REV="101"
+# curl -s http://dl.google.com/linux/chrome/deb/dists/stable/main/binary-amd64/Packages | grep -B 1 Version
+PKG_VERSION_NUMBER="87.0.4280.66"
+PKG_REV="104"
 PKG_ARCH="x86_64"
 PKG_LICENSE="Custom"
 PKG_SITE="http://www.google.com/chrome"
 PKG_DEPENDS_TARGET="toolchain at-spi2-atk atk cairo chrome-libXcomposite \
                     chrome-libXdamage chrome-libXfixes chrome-libXi chrome-libXrender \
-                    chrome-libXtst chrome-libxcb cups gdk-pixbuf gtk3 harfbuzz \
-                    libXcursor libxss nss pango scrnsaverproto unclutter"
+                    chrome-libXtst chrome-libxcb chrome-libxkbcommon cups gdk-pixbuf gtk3 \
+                    harfbuzz libXcursor libxss nss pango scrnsaverproto unclutter"
 PKG_SECTION="browser"
 PKG_SHORTDESC="Google Chrome Browser"
 PKG_LONGDESC="Google Chrome Browser"
@@ -33,6 +35,7 @@ addon() {
 
   # config
   cp -P $PKG_DIR/config/* $ADDON_BUILD/$PKG_ADDON_ID/config
+  echo "CHROME_VERSION=${PKG_VERSION_NUMBER}" >$ADDON_BUILD/$PKG_ADDON_ID/config/chrome.version
 
   # atk
   cp -PL $(get_build_dir atk)/.$TARGET_NAME/atk/libatk-1.0.so.0 $ADDON_BUILD/$PKG_ADDON_ID/lib
@@ -56,25 +59,26 @@ addon() {
   cp -PL $(get_build_dir harfbuzz)/.$TARGET_NAME/src/.libs/libharfbuzz-icu.so* $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libatk-bridge
-  cp -PL $(get_build_dir at-spi2-atk)/.$TARGET_NAME/atk-adaptor/libatk-bridge-2.0.so.0 $ADDON_BUILD/$PKG_ADDON_ID/lib 
+  cp -PL $(get_build_dir at-spi2-atk)/.$TARGET_NAME/atk-adaptor/libatk-bridge-2.0.so.0 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libatspi
-  cp -PL $(get_build_dir at-spi2-core)/.$TARGET_NAME/atspi/libatspi.so.0 $ADDON_BUILD/$PKG_ADDON_ID/lib 
+  cp -PL $(get_build_dir at-spi2-core)/.$TARGET_NAME/atspi/libatspi.so.0 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libcups
   cp -PL $(get_build_dir cups)/cups/libcups.so.2 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libxcb
-  cp -PL $(get_build_dir chrome-libxcb)/.$TARGET_NAME/src/.libs/libxcb.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib  
+  cp -PL $(get_build_dir chrome-libxcb)/.$TARGET_NAME/src/.libs/libxcb.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib
+  cp -PL $(get_build_dir chrome-libxcb)/.$TARGET_NAME/src/.libs/libxcb-dri3.so.0 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libXcomposite
-  cp -PL $(get_build_dir chrome-libXcomposite)/.$TARGET_NAME/src/.libs/libXcomposite.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib 
+  cp -PL $(get_build_dir chrome-libXcomposite)/.$TARGET_NAME/src/.libs/libXcomposite.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libXcursor
-  cp -PL $(get_build_dir libXcursor)/.$TARGET_NAME/src/.libs/libXcursor.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib 
+  cp -PL $(get_build_dir libXcursor)/.$TARGET_NAME/src/.libs/libXcursor.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libXdamage
-  cp -PL $(get_build_dir chrome-libXdamage)/.$TARGET_NAME/src/.libs/libXdamage.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib 
+  cp -PL $(get_build_dir chrome-libXdamage)/.$TARGET_NAME/src/.libs/libXdamage.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libXfixes
   cp -PL $(get_build_dir chrome-libXfixes)/.$TARGET_NAME/src/.libs/libXfixes.so.3 $ADDON_BUILD/$PKG_ADDON_ID/lib
@@ -82,11 +86,14 @@ addon() {
   # libXi  
   cp -PL $(get_build_dir chrome-libXi)/.$TARGET_NAME/src/.libs/libXi.so.6 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
+  # libxkbcommon
+  cp -PL $(get_build_dir chrome-libxkbcommon)/.$TARGET_NAME/.libs/libxkbcommon.so.0 $ADDON_BUILD/$PKG_ADDON_ID/lib
+
   # libXrender
   cp -PL $(get_build_dir chrome-libXrender)/.$TARGET_NAME/src/.libs/libXrender.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libxss
-  cp -PL $(get_build_dir libxss)/.$TARGET_NAME/src/.libs/libXss.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib 
+  cp -PL $(get_build_dir libxss)/.$TARGET_NAME/src/.libs/libXss.so.1 $ADDON_BUILD/$PKG_ADDON_ID/lib
 
   # libXtst
   cp -PL $(get_build_dir chrome-libXtst)/.$TARGET_NAME/src/.libs/libXtst.so.6 $ADDON_BUILD/$PKG_ADDON_ID/lib
@@ -98,5 +105,4 @@ addon() {
 
   # unclutter
   cp -P $(get_build_dir unclutter)/.install_pkg/usr/bin/unclutter $ADDON_BUILD/$PKG_ADDON_ID/bin
-
 }

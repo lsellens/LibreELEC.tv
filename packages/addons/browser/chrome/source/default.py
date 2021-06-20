@@ -7,7 +7,7 @@ import sys
 import time
 import xbmcaddon
 import subprocess
-from xml.dom.minidom import parse
+import json
 
 sys.path.append('/usr/share/kodi/addons/service.libreelec.settings')
 
@@ -35,6 +35,7 @@ def startchrome(args):
     new_env['VAAPI_MODE'] = __addon__.getSetting('VAAPI_MODE')
     new_env['WINDOW_MODE'] = __addon__.getSetting('WINDOW_MODE')
     new_env['RASTER_MODE'] = __addon__.getSetting('RASTER_MODE')
+    new_env['DARK_MODE'] = __addon__.getSetting('DARK_MODE')
 
     new_env['ALSA_DEVICE'] = ''
     if __addon__.getSetting('USE_CUST_AUDIODEVICE') == 'true':
@@ -58,21 +59,22 @@ def isRuning(pname):
   return False
 
 def getAudioDevice():
-  try:
-    dom = parse("/storage/.kodi/userdata/guisettings.xml")
-    audiooutput=dom.getElementsByTagName('audiooutput')
-    for node in audiooutput:
-      dev = node.getElementsByTagName('audiodevice')[0].childNodes[0].nodeValue
-    if dev.startswith("ALSA:"):
-      dev = dev.split("ALSA:")[1]
-      if dev == "@":
-        return None
-      if dev.startswith("@:"):
-        dev = dev.split("@:")[1]
-    else:
-      # not ALSA
+  dev = json.loads(xbmc.executeJSONRPC(json.dumps({
+                      "jsonrpc": "2.0",
+                      "method": "Settings.GetSettingValue",
+                      "params": {
+                                  "setting": "audiooutput.audiodevice",
+                                },
+                      "id": 1,
+                   })))['result']['value']
+  if dev.startswith("ALSA:"):
+    dev = dev.split("ALSA:")[1]
+    if dev == "@":
       return None
-  except:
+    if dev.startswith("@:"):
+      dev = dev.split("@:")[1]
+  else:
+    # not ALSA
     return None
   if dev.startswith("CARD="):
     dev = "plughw:" + dev

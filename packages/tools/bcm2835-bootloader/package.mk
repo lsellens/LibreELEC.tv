@@ -3,8 +3,17 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="bcm2835-bootloader"
-PKG_VERSION="02bff4e75712094ffb1ab2ec58a8115ca3e52290"
-PKG_SHA256="0584dce8bfcacc86e68b4196f6256554fdd4d93632abed7f5e8d24d30030ca45"
+
+# use latest master firmware on RPi4 and latest pre-common
+# firmware on RPi0-3
+if [ "$DEVICE" = "RPi4" ]; then
+  PKG_VERSION="2b76cfc6f57d4943144b9ceb5b57d3d455d6a8fd"
+  PKG_SHA256="8e3197667d80bd4e6faccf1e77dbb546c884467298edc7ce46db241ca6c137fc"
+else
+  PKG_VERSION="9e3c23ce779e8cf44c33d6a25bba249319207f68"
+  PKG_SHA256="7ab85b6d7082be87556bc02353b97f97bb1d4af304e4004a3d7ad2a17bb8a696"
+fi
+
 PKG_ARCH="arm"
 PKG_LICENSE="nonfree"
 PKG_SITE="http://www.broadcom.com"
