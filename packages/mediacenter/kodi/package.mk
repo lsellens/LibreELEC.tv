@@ -182,9 +182,6 @@ configure_package() {
     fi
   fi
 
-  KODI_LIBDVD="${KODI_DVDCSS} \
-               -DLIBDVDNAV_URL=${SOURCES}/libdvdnav/libdvdnav-$(get_pkg_version libdvdnav).tar.gz \
-               -DLIBDVDREAD_URL=${SOURCES}/libdvdread/libdvdread-$(get_pkg_version libdvdread).tar.gz"
 
   PKG_CMAKE_OPTS_TARGET="-DNATIVEPREFIX=${TOOLCHAIN} \
                          -DWITH_TEXTUREPACKER=${TOOLCHAIN}/bin/TexturePacker \
@@ -220,6 +217,7 @@ configure_package() {
                          ${KODI_XORG} \
                          ${KODI_SAMBA} \
                          ${KODI_NFS} \
+                         ${KODI_DVDCSS} \
                          ${KODI_LIBDVD} \
                          ${KODI_AVAHI} \
                          ${KODI_UPNP} \
