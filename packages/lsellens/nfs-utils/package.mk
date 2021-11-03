@@ -2,7 +2,7 @@
 # Copyright (C) 2019 Trond Haugland (trondah@gmail.com)
 
 PKG_NAME="nfs-utils"
-PKG_VERSION="2.4.3"
+PKG_VERSION="2.5.4"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://sourceforge.net/projects/nfs"
 PKG_URL="http://downloads.sf.net/sourceforge/nfs/$PKG_NAME-$PKG_VERSION.tar.bz2"
