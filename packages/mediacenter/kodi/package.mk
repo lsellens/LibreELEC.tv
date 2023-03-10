@@ -8,7 +8,7 @@ PKG_SHA256="4c75add8b9ea44924b6ee45f94439545676033f35f5993908871e3dded527b79"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_URL="https://github.com/xbmc/xbmc/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain JsonSchemaBuilder:host TexturePacker:host Python3 zlib systemd lzo pcre swig:host libass curl fontconfig fribidi tinyxml libjpeg-turbo freetype libcdio taglib libxml2 libxslt rapidjson sqlite ffmpeg crossguid libdvdnav libfmt lirc libfstrcmp flatbuffers:host flatbuffers libudfread spdlog"
+PKG_DEPENDS_TARGET="toolchain JsonSchemaBuilder:host TexturePacker:host Python3 zlib systemd lzo pcre swig:host libass curl fontconfig fribidi tinyxml libjpeg-turbo freetype libcdio taglib libxml2 libxslt rapidjson sqlite ffmpeg crossguid libfmt lirc libfstrcmp flatbuffers:host flatbuffers libudfread spdlog"
 PKG_DEPENDS_HOST="toolchain"
 PKG_LONGDESC="A free and open source cross-platform media player."
 PKG_BUILD_FLAGS="+speed"
@@ -53,7 +53,21 @@ configure_package() {
     PKG_PATCH_DIRS+=" wayland"
     CFLAGS+=" -DEGL_NO_X11"
     CXXFLAGS+=" -DEGL_NO_X11"
-    KODI_PLATFORM="-DCORE_PLATFORM_NAME=wayland \
+    KODI_PLATFORM="-DCORE_PLATFORM_N    PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdvdnav"
+    KODI_LIBDVD="-DLIBDVDNAV_URL=${SOURCES}/libdvdnav/libdvdnav-$(get_pkg_version libdvdnav).tar.gz \
+                 -DLIBDVDREAD_URL=${SOURCES}/libdvdread/libdvdread-$(get_pkg_version libdvdread).tar.gz"
+    if [ "$KODI_DVDCSS_SUPPORT" = yes ]; then
+      KODI_DVDCSS="-DENABLE_DVDCSS=ON \
+                   -DLIBDVDCSS_URL=${SOURCES}/libdvdcss/libdvdcss-$(get_pkg_version libdvdcss).tar.gz"
+    else
+      KODI_DVDCSS="-DENABLE_DVDCSS=OFF"
+    fi
+    if [ "$KODI_BLURAY_SUPPORT" = yes ]; then
+      PKG_DEPENDS_TARGET+=" libbluray"
+      KODI_BLURAY="-DENABLE_BLURAY=ON"
+    else
+      KODI_BLURAY="-DENABLE_BLURAY=OFF"
+    fiAME=wayland \
                    -DAPP_RENDER_SYSTEM=gles \
                    -DWAYLANDPP_SCANNER=${TOOLCHAIN}/bin/wayland-scanner++ \
                    -DWAYLANDPP_PROTOCOLS_DIR=${SYSROOT_PREFIX}/usr/share/waylandpp/protocols"
@@ -109,21 +123,24 @@ configure_package() {
 
   if [ "${KODI_OPTICAL_SUPPORT}" = yes ]; then
     KODI_OPTICAL="-DENABLE_OPTICAL=ON"
+    PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdvdnav"
+    KODI_LIBDVD="-DLIBDVDNAV_URL=${SOURCES}/libdvdnav/libdvdnav-$(get_pkg_version libdvdnav).tar.gz \
+                 -DLIBDVDREAD_URL=${SOURCES}/libdvdread/libdvdread-$(get_pkg_version libdvdread).tar.gz"
+    if [ "$KODI_DVDCSS_SUPPORT" = yes ]; then
+      KODI_DVDCSS="-DENABLE_DVDCSS=ON \
+                   -DLIBDVDCSS_URL=${SOURCES}/libdvdcss/libdvdcss-$(get_pkg_version libdvdcss).tar.gz"
+    else
+      KODI_DVDCSS="-DENABLE_DVDCSS=OFF"
+    fi
+    if [ "$KODI_BLURAY_SUPPORT" = yes ]; then
+      PKG_DEPENDS_TARGET+=" libbluray"
+      KODI_BLURAY="-DENABLE_BLURAY=ON"
+    else
+      KODI_BLURAY="-DENABLE_BLURAY=OFF"
+    fi
   else
     KODI_OPTICAL="-DENABLE_OPTICAL=OFF"
-  fi
-
-  if [ "${KODI_DVDCSS_SUPPORT}" = yes ]; then
-    KODI_DVDCSS="-DENABLE_DVDCSS=ON \
-                 -DLIBDVDCSS_URL=${SOURCES}/libdvdcss/libdvdcss-$(get_pkg_version libdvdcss).tar.gz"
-  else
     KODI_DVDCSS="-DENABLE_DVDCSS=OFF"
-  fi
-
-  if [ "${KODI_BLURAY_SUPPORT}" = yes ]; then
-    PKG_DEPENDS_TARGET+=" libbluray"
-    KODI_BLURAY="-DENABLE_BLURAY=ON"
-  else
     KODI_BLURAY="-DENABLE_BLURAY=OFF"
   fi
 
@@ -230,9 +247,6 @@ configure_package() {
     PKG_PATCH_DIRS+=" drmprime-filter"
   fi
 
-  KODI_LIBDVD="${KODI_DVDCSS} \
-               -DLIBDVDNAV_URL=${SOURCES}/libdvdnav/libdvdnav-$(get_pkg_version libdvdnav).tar.gz \
-               -DLIBDVDREAD_URL=${SOURCES}/libdvdread/libdvdread-$(get_pkg_version libdvdread).tar.gz"
 
   PKG_CMAKE_OPTS_TARGET="-DNATIVEPREFIX=${TOOLCHAIN} \
                          -DWITH_TEXTUREPACKER=${TOOLCHAIN}/bin/TexturePacker \

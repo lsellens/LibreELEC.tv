@@ -123,3 +123,5 @@
 
   # debug tty path
     DEBUG_TTY="/dev/console"
+    
+    . projects/$PROJECT/custom
