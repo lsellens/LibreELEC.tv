@@ -1,10 +1,10 @@
 PKG_NAME="transmission"
-PKG_VERSION="3.00"
-PKG_SHA256="9144652fe742f7f7dd6657716e378da60b751aaeda8bef8344b3eefc4db255f2"
-PKG_REV="23"
+PKG_VERSION="4.0.2"
+PKG_SHA256="39bf7a104a722805a9dc089cdaaffe33bf90b82230a7ea7f340cae59f00a2ee8"
+PKG_REV="25"
 PKG_LICENSE="OSS"
 PKG_SITE="http://www.transmissionbt.com/"
-PKG_URL="https://github.com/transmission/transmission-releases/raw/master/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+PKG_URL="https://github.com/transmission/transmission/releases/download/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain curl libevent"
 PKG_TOOLCHAIN="cmake-make"
 
@@ -23,7 +23,6 @@ PKG_CMAKE_OPTS_TARGET="-DENABLE_DAEMON=ON \
                        -DENABLE_UTILS=On \
                        -DENABLE_CLI=OFF \
                        -DENABLE_TESTS=OFF \
-                       -DENABLE_LIGHTWEIGHT=OFF \
                        -DENABLE_UTP=ON \
                        -DENABLE_NLS=OFF \
                        -DINSTALL_DOC=OFF \
@@ -43,6 +42,6 @@ addon() {
        ${PKG_BUILD}/.install_pkg/usr/bin/transmission-create \
        ${PKG_BUILD}/.install_pkg/usr/bin/transmission-show
     cp -PR ${PKG_BUILD}/.install_pkg/usr/bin \
-           ${PKG_BUILD}/.install_pkg/usr/share/transmission/web \
+           ${PKG_BUILD}/.install_pkg/usr/share/transmission/public_html \
            ${ADDON_BUILD}/${PKG_ADDON_ID}
 }
