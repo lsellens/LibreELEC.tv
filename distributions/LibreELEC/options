@@ -101,7 +101,7 @@
   SKIN_DEFAULT="Estuary"
 
 # install extra subtitle Fonts for KODI (yes / no)
-  KODI_EXTRA_FONTS="yes"
+  KODI_EXTRA_FONTS="no"
 
 # build and install PulseAudio support (yes / no)
   PULSEAUDIO_SUPPORT="yes"
@@ -113,22 +113,22 @@
   ESPEAK_SUPPORT="no"
 
 # build and install with BluRay support (yes / no)
-  KODI_BLURAY_SUPPORT="yes"
+  KODI_BLURAY_SUPPORT="no"
 
 # build and install with BD+ support
 # (BD+ decryption support in KODI) (yes / no)
-  BLURAY_BDPLUS_SUPPORT="yes"
+  BLURAY_BDPLUS_SUPPORT="no"
 
 # build and install with AACS support
 # (BD decryption support in KODI) (yes / no)
-  BLURAY_AACS_SUPPORT="yes"
+  BLURAY_AACS_SUPPORT="no"
 
 # build and install with DVDCSS support
 # (DVD decryption support in KODI) (yes / no)
-  KODI_DVDCSS_SUPPORT="yes"
+  KODI_DVDCSS_SUPPORT="no"
 
 # build and install bluetooth support (yes / no)
-  BLUETOOTH_SUPPORT="yes"
+  BLUETOOTH_SUPPORT="no"
 
 # build and install with KODI webfrontend (yes / no)
   KODI_WEBSERVER_SUPPORT="yes"
@@ -137,25 +137,25 @@
   AVAHI_DAEMON="yes"
 
 # build with UPnP support (yes / no)
-  KODI_UPNP_SUPPORT="yes"
+  KODI_UPNP_SUPPORT="no"
 
 # build with MySQL support (mariadb / none)
   KODI_MYSQL_SUPPORT="mariadb"
 
 # build xbmc with optical drive support (yes / no)
-  KODI_OPTICAL_SUPPORT="yes"
+  KODI_OPTICAL_SUPPORT="no"
 
 # build with AirPlay support (stream videos from iDevices to KODI) (yes / no)
-  KODI_AIRPLAY_SUPPORT="yes"
+  KODI_AIRPLAY_SUPPORT="no"
 
 # build with AirTunes support (stream music from iDevices to KODI) (yes / no)
-  KODI_AIRTUNES_SUPPORT="yes"
+  KODI_AIRTUNES_SUPPORT="no"
 
 # build with libnfs support (mounting nfs shares with KODI) (yes / no)
   KODI_NFS_SUPPORT="yes"
 
 # build with Samba Client support (mounting SAMBA shares with KODI) (yes / no)
-  KODI_SAMBA_SUPPORT="yes"
+  KODI_SAMBA_SUPPORT="no"
 
 # build kodi with alsa support (yes/no)
   KODI_ALSA_SUPPORT="yes"
@@ -200,16 +200,16 @@
   NFS_SUPPORT="yes"
 
 # build with Samba Client support (mounting samba shares via the OS) (yes / no)
-  SAMBA_SUPPORT="yes"
+  SAMBA_SUPPORT="no"
 
 # build and install Samba Server (yes / no)
-  SAMBA_SERVER="yes"
+  SAMBA_SERVER="no"
 
 # build and install SFTP Server (yes / no)
   SFTP_SERVER="yes"
 
 # build and install OpenVPN support (yes / no)
-  OPENVPN_SUPPORT="yes"
+  OPENVPN_SUPPORT="no"
 
 # build and install WireGuard support (yes / no)
   WIREGUARD_SUPPORT="yes"
@@ -227,7 +227,7 @@
   NANO_EDITOR="yes"
 
 # cron support (yes / no)
-  CRON_SUPPORT="yes"
+  CRON_SUPPORT="no"
 
 # build with installer (yes / no)
   INSTALLER_SUPPORT="yes"
@@ -242,7 +242,7 @@
   JOYSTICK_SUPPORT="yes"
 
 # build and install CEC adapter support (yes / no)
-  CEC_SUPPORT="yes"
+  CEC_SUPPORT="no"
 
 # build and install CEC framework support (yes / no)
   CEC_FRAMEWORK_SUPPORT="no"

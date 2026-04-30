@@ -8,7 +8,7 @@ PKG_SHA256="680320f1c3de0c283b2df0d61807cd0ca88e012dc3ec906a0414b20a5866f19d"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.connman.net"
 PKG_URL="https://git.kernel.org/pub/scm/network/connman/connman.git/snapshot/connman-${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain dbus glib iptables iwd readline"
+PKG_DEPENDS_TARGET="toolchain dbus glib iptables readline"
 PKG_LONGDESC="A modular network connection manager."
 PKG_TOOLCHAIN="autotools"
 
@@ -43,8 +43,14 @@ PKG_CONFIGURE_OPTS_TARGET="--srcdir=.. \
                            --with-dbusconfdir=/usr/share \
                            --with-systemdunitdir=/usr/lib/systemd/system \
                            --disable-silent-rules \
-                           --disable-wifi \
-                           --enable-iwd"
+                           --disable-wifi"
+
+if [ "${WIFI_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" iwd"
+  PKG_CONFIGURE_OPTS_TARGET+=" --enable-iwd"
+else
+  PKG_CONFIGURE_OPTS_TARGET+=" --disable-iwd"
+fi
 
 if [ "${WIREGUARD_SUPPORT}" = "yes" ]; then
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-wireguard=builtin"
