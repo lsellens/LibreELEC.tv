@@ -64,7 +64,7 @@
   # additional Firmware to use (dvb-firmware, misc-firmware, wlan-firmware)
   # Space separated list is supported,
   # e.g. FIRMWARE="dvb-firmware misc-firmware wlan-firmware"
-    FIRMWARE="misc-firmware wlan-firmware dvb-firmware brcmfmac_sdio-firmware-rpi"
+    FIRMWARE="wlan-firmware"
 
   # build with installer (yes / no)
     INSTALLER_SUPPORT="no"
@@ -85,3 +85,6 @@
 
   # debug tty path
     DEBUG_TTY="/dev/console"
+ 
+    KERNEL_NFS_SUPPORT="no"
+    WIREGUARD_SUPPORT="no"

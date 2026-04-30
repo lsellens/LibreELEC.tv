@@ -67,7 +67,7 @@
   ADDITIONAL_DRIVERS=""
 
 # Default size of system partition, in MB, eg. 512
-  SYSTEM_SIZE=512
+  SYSTEM_SIZE=256
 
 # Default system partition offset, in sectors, eg. 2048
   SYSTEM_PART_START=8192
@@ -110,7 +110,7 @@
   PIPEWIRE_SUPPORT="no"
 
 # build and install eSpeak-NG support (yes / no)
-  ESPEAK_SUPPORT="yes"
+  ESPEAK_SUPPORT="no"
 
 # build and install with BluRay support (yes / no)
   KODI_BLURAY_SUPPORT="no"
@@ -233,7 +233,7 @@
   INSTALLER_SUPPORT="yes"
 
 # build and install remote support (yes / no)
-  REMOTE_SUPPORT="yes"
+  REMOTE_SUPPORT="no"
 
 # IR remote keymaps supported in default config
   IR_REMOTE_KEYMAPS="rc6_mce xbox_360 xbox_one"
@@ -264,7 +264,6 @@
 # driver addons to install:
 # for a list of additional drivers see packages/linux-driver-addons
 # Space separated list is supported,
-  #DRIVER_ADDONS="crazycat digital_devices dvb-latest"
   DRIVER_ADDONS=""
 
 # should reusable host tools be built:

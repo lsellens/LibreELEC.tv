@@ -8,7 +8,7 @@ PKG_SHA256="a60afcb556e4a00cb19fc35b7e77758107c9a8096c6ce9b66af5f92396be31aa"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_URL="https://github.com/xbmc/xbmc/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain JsonSchemaBuilder:host TexturePacker:host Python3 zlib systemd lzo pcre swig:host libass curl fontconfig fribidi tinyxml tinyxml2 libjpeg-turbo freetype libcdio taglib libxml2 libxslt rapidjson sqlite ffmpeg crossguid libdvdnav libfmt lirc libfstrcmp flatbuffers:host flatbuffers libudfread spdlog"
+PKG_DEPENDS_TARGET="toolchain JsonSchemaBuilder:host TexturePacker:host Python3 zlib systemd lzo pcre swig:host libass curl fontconfig fribidi tinyxml tinyxml2 libjpeg-turbo freetype libcdio taglib libxml2 libxslt rapidjson sqlite ffmpeg crossguid libfmt lirc libfstrcmp flatbuffers:host flatbuffers libudfread spdlog"
 PKG_DEPENDS_UNPACK="commons-lang3 commons-text groovy"
 PKG_DEPENDS_HOST="toolchain"
 PKG_LONGDESC="A free and open source cross-platform media player."
@@ -110,21 +110,24 @@ configure_package() {
 
   if [ "${KODI_OPTICAL_SUPPORT}" = yes ]; then
     KODI_OPTICAL="-DENABLE_OPTICAL=ON"
+    PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdvdnav"
+    KODI_LIBDVD="-DLIBDVDNAV_URL=$SOURCES/libdvdnav/libdvdnav-$(get_pkg_version libdvdnav).tar.gz \
+                 -DLIBDVDREAD_URL=$SOURCES/libdvdread/libdvdread-$(get_pkg_version libdvdread).tar.gz"
+    if [ "$KODI_DVDCSS_SUPPORT" = yes ]; then
+      KODI_DVDCSS="-DENABLE_DVDCSS=ON \
+                   -DLIBDVDCSS_URL=$SOURCES/libdvdcss/libdvdcss-$(get_pkg_version libdvdcss).tar.gz"
+    else
+      KODI_DVDCSS="-DENABLE_DVDCSS=OFF"
+    fi
+    if [ "$KODI_BLURAY_SUPPORT" = yes ]; then
+      PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libbluray"
+      KODI_BLURAY="-DENABLE_BLURAY=ON"
+    else
+      KODI_BLURAY="-DENABLE_BLURAY=OFF"
+    fi
   else
     KODI_OPTICAL="-DENABLE_OPTICAL=OFF"
-  fi
-
-  if [ "${KODI_DVDCSS_SUPPORT}" = yes ]; then
-    KODI_DVDCSS="-DENABLE_DVDCSS=ON \
-                 -DLIBDVDCSS_URL=${SOURCES}/libdvdcss/libdvdcss-$(get_pkg_version libdvdcss).tar.gz"
-  else
     KODI_DVDCSS="-DENABLE_DVDCSS=OFF"
-  fi
-
-  if [ "${KODI_BLURAY_SUPPORT}" = yes ]; then
-    PKG_DEPENDS_TARGET+=" libbluray"
-    KODI_BLURAY="-DENABLE_BLURAY=ON"
-  else
     KODI_BLURAY="-DENABLE_BLURAY=OFF"
   fi
 
@@ -231,10 +234,6 @@ configure_package() {
     PKG_PATCH_DIRS+=" drmprime-filter"
   fi
 
-  KODI_LIBDVD="${KODI_DVDCSS} \
-               -DLIBDVDNAV_URL=${SOURCES}/libdvdnav/libdvdnav-$(get_pkg_version libdvdnav).tar.gz \
-               -DLIBDVDREAD_URL=${SOURCES}/libdvdread/libdvdread-$(get_pkg_version libdvdread).tar.gz"
-
   PKG_CMAKE_OPTS_TARGET="-DNATIVEPREFIX=${TOOLCHAIN} \
                          -DWITH_TEXTUREPACKER=${TOOLCHAIN}/bin/TexturePacker \
                          -DWITH_JSONSCHEMABUILDER=${TOOLCHAIN}/bin/JsonSchemaBuilder \
@@ -273,6 +272,7 @@ configure_package() {
                          ${KODI_PLATFORM} \
                          ${KODI_SAMBA} \
                          ${KODI_NFS} \
+                         $KODI_DVDCSS \
                          ${KODI_LIBDVD} \
                          ${KODI_AVAHI} \
                          ${KODI_UPNP} \

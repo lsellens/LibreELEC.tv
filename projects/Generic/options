@@ -54,7 +54,6 @@
   # additional Firmware to use (dvb-firmware, misc-firmware, wlan-firmware)
   # Space separated list is supported,
   # e.g. FIRMWARE="dvb-firmware misc-firmware wlan-firmware"
-    #FIRMWARE="misc-firmware wlan-firmware dvb-firmware iwlwifi-firmware"
     FIRMWARE=""
 
   # additional drivers to install:
@@ -72,4 +71,7 @@
     fi
  
     WIFI_SUPPORT="no"
-    . projects/$PROJECT/custom
+    KERNEL_NFS_SUPPORT="yes"
+    GRAPHIC_DRIVERS="i915 i965"
+    IR_REMOTE_KEYMAPS=""
+    JOYSTICK_SUPPORT="no"
