@@ -54,7 +54,8 @@
   # additional Firmware to use (dvb-firmware, misc-firmware, wlan-firmware)
   # Space separated list is supported,
   # e.g. FIRMWARE="dvb-firmware misc-firmware wlan-firmware"
-    FIRMWARE="misc-firmware wlan-firmware dvb-firmware iwlwifi-firmware"
+    #FIRMWARE="misc-firmware wlan-firmware dvb-firmware iwlwifi-firmware"
+    FIRMWARE=""
 
   # additional drivers to install:
   # for a list of additional drivers see packages/linux-drivers
@@ -69,3 +70,6 @@
     if [ ${SYSTEM_SIZE} -lt 1024 ]; then
       SYSTEM_SIZE=1024
     fi
+ 
+    WIFI_SUPPORT="no"
+    . projects/$PROJECT/custom

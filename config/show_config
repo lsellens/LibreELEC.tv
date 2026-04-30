@@ -96,6 +96,7 @@ show_config() {
   config_message+="\n - SFTP server support:\t\t\t ${SFTP_SERVER}"
   config_message+="\n - OpenVPN support:\t\t\t ${OPENVPN_SUPPORT}"
   config_message+="\n - WireGuard support:\t\t\t ${WIREGUARD_SUPPORT}"
+  config_message+="\n - Wifi support:\t\t\t ${WIFI_SUPPORT}"
 
   # Graphic configuration
 
